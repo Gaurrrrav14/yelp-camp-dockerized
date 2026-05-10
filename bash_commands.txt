@@ -1,0 +1,69 @@
+
+npm init -y
+npm i express mongoose ejs
+
+make the views directory for ejs
+
+make the models directory for mongo 
+
+nmp i method-override for put/patch/delete request 
+
+npm install ejs-mate 
+
+( ejs-mate is an engine for ejs. using this engine 
+enables us to create boilerplates that we can reuse 
+so in the views folder we make a layouts folder
+where we will place boilerplat.ejs
+
+inside this boilerplate ejs file
+we will use the <%- body %>
+
+what this means is whatever template is calling this layout boilerplates
+will pass its contents to our boilerplate file as the 'body' parameter
+
+now inside our original template whatever it is we use 
+
+<% layout('layouts/boilerplat') %>
+
+)
+
+image: `https://picsum.photos/400?random=${Math.random()}`
+
+
+npm install joi 
+used for validation of info entered into the form 
+
+npm i cookie-parser
+for parsing cookies via express
+
+npm i express-session
+for sessions
+
+npm i connect-flash 
+flash is for storing messages and flash them to the user 
+
+nmp i bcrypt
+bcrypt for authentication for learning
+
+npm i passport passport-local passport-local-mongoose
+for better authentication and authorizatoin used in actual project 
+
+npm i multer 
+for multipart form data for uploading files from pc 
+
+npm i dotenv
+for env variables
+
+npm i cloudinary
+npm i multer-storage-cloudinary
+
+npm install cloudinary@1.41.3
+
+npm install multer-storage-cloudinary@4.0.0
+
+npm install multer@1.4.5-lts.1
+
+
+npm install @maptiler/client@2.5.0
+
+npm i express-mongo-sanitize

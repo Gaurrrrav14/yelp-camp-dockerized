@@ -1,0 +1,34 @@
+version: '3.8'
+
+services:
+  app:
+    build:
+      context: .
+      # Target the production stage specifically
+      # This means `docker compose up` builds the prod image, not a debug one
+      target: production
+    
+    ports:
+      # HOST:CONTAINER — map host port 3000 to container port 3000
+      - "3000:3000"
+    
+    # Load env vars from .env file — this file is NEVER copied into the image
+    # It's read by Docker at runtime and injected as environment variables
+    env_file:
+      - .env
+    
+    environment:
+      # Explicitly override NODE_ENV — env_file values can be overridden here
+      - NODE_ENV=production
+    
+    # Restart policy: restart container unless explicitly stopped
+    # Survives crashes, OOM kills, unexpected exits
+    restart: unless-stopped
+    
+    # Map healthcheck status to compose
+    healthcheck:
+      test: ["CMD", "wget", "--spider", "-q", "http://localhost:3000/"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
