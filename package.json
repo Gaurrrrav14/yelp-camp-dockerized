@@ -5,7 +5,8 @@
   "scripts": {
     "start": "node app.js",
     "dev": "nodemon app.js",
-    "test": "echo \"No tests yet\" && exit 0"
+    "test": "echo \"No tests yet\" && exit 0",
+    "lint": "eslint . --ignore-pattern node_modules/ --ignore-pattern seeds/"
   },
   "keywords": [],
   "author": "",

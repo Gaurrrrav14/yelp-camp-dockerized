@@ -1,0 +1,62 @@
+name: CI — Lint, Test, Build
+
+# Triggers: run on every push to any branch, and on all pull requests targeting main
+on:
+  push:
+    branches: ['**']
+  pull_request:
+    branches: [main]
+
+jobs:
+  ci:
+    name: Install → Lint → Test → Docker Build
+    runs-on: ubuntu-latest   # Fresh Ubuntu VM spun up for this job
+
+    steps:
+      # Step 1: Check out your repository code onto the runner VM
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      # Step 2: Set up Node.js with caching
+      # cache: 'npm' caches node_modules between runs — saves ~30s on installs
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      # Step 3: Install ALL dependencies (including devDeps — we need them for linting)
+      # npm ci is deterministic: it reads package-lock.json exactly
+      # It also fails if package-lock.json is out of sync with package.json
+      - name: Install dependencies
+        run: npm ci
+
+      # Step 4: Lint — even without a test suite, lint catches real bugs
+      # We add eslint as a devDependency (see note below)
+      - name: Run linter
+        run: npm run lint
+        # If you haven't set up eslint yet, temporarily replace with:
+        # run: echo "Linting skipped — not yet configured"
+
+      # Step 5: Tests — your test script exits 0, so this passes without tests
+      # When you add real tests (Jest/Mocha), they run here automatically
+      - name: Run tests
+        run: npm test
+
+      # Step 6: Set up Docker Buildx — enables advanced build features
+      # BuildKit (used by Buildx) enables layer caching, parallel builds
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      # Step 7: Build the Docker image — but DON'T push it
+      # This validates your Dockerfile is correct and the image actually builds
+      # If the build fails here, you catch it before it ever reaches main
+      - name: Build Docker image (validation only)
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          push: false          # Build but don't push — CI only validates
+          tags: yelpcamp:ci-test
+          # Cache layers from GitHub Actions cache — massive speedup on reruns
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
