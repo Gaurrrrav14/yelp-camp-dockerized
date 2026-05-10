@@ -6,7 +6,7 @@
     "start": "node app.js",
     "dev": "nodemon app.js",
     "test": "echo \"No tests yet\" && exit 0",
-    "lint": "eslint . --ignore-pattern node_modules/ --ignore-pattern seeds/"
+    "lint": "eslint . --ignore-pattern node_modules/ --ignore-pattern seeds/ --ignore-pattern public/"
   },
   "keywords": [],
   "author": "",
