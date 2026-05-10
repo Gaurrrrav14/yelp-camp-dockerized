@@ -2,11 +2,11 @@
   "name": "yelpcamp",
   "version": "1.0.0",
   "main": "app.js",
-"scripts": {
+  "scripts": {
     "start": "node app.js",
     "dev": "nodemon app.js",
     "test": "echo \"No tests yet\" && exit 0"
-},
+  },
   "keywords": [],
   "author": "",
   "license": "ISC",
@@ -31,5 +31,9 @@
     "passport": "^0.7.0",
     "passport-local": "^1.0.0",
     "passport-local-mongoose": "^9.0.1"
+  },
+  "devDependencies": {
+    "@eslint/js": "^10.0.1",
+    "eslint": "^10.3.0"
   }
 }
